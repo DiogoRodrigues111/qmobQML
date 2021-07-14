@@ -2,7 +2,7 @@ import QtQuick 2.12
 import QtQuick.Window 2.0
 import Qt.labs.qmlmodels 1.0
 
-import generator.io 1.0
+import Generator.io 1.0
 
 Window {
     id:main_window
@@ -17,11 +17,8 @@ Window {
         rowSpacing: 1
         clip: true
 
-        Player {
+        RootPlayerItem {
             id: rootPlayerItem
-
-            onDataChanged: function valChanged(val) { getReturnTypeId(val) }
-            onRowsInserted: function valChanged(val) { getReturnTypeId(val) }
         }
 
         model: TableModel {

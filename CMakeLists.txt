@@ -14,6 +14,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(Qt5QuickWidgets, "C:/Qt/5.15.2/mingw81_32/lib/cmake/Qt5QuickWidgets")
 set(Qt5Qml = "C:/Qt/5.15.2/mingw81_32/lib/cmake/Qt5Qml")
 set(Qt5QmlImportScanner "C:/Qt/5.15.2/mingw81_32/lib/cmake/Qt5QmlImportScanner")
+set(Qt5Core "C:/Qt/5.15.2/mingw81_32/lib/cmake/Qt5Core")
 
 # QtCreator supports the following variables for Android, which are identical to qmake Android variables.
 # Check https://doc.qt.io/qt/deployment-android.html for more information.
@@ -39,6 +40,9 @@ find_package(Qt${QT_VERSION_MAJOR} COMPONENTS Qt5Qml )
 
 find_package(QT NAMES Qt6 Qt5 COMPONENTS Qt5QmlImportScanner)
 find_package(Qt${QT_VERSION_MAJOR} COMPONENTS Qt5QmlImportScanner)
+
+find_package(QT NAMES Qt6 Qt5 COMPONENTS Qt5Core )
+find_package(Qt${QT_VERSION_MAJOR} COMPONENTS Qt5Core )
 
 set(PROJECT_SOURCES
         main.cpp
@@ -77,6 +81,9 @@ target_link_libraries(atividade2
 
 target_link_libraries(atividade2
   INTERFACE Qt${QT_VERSION_MAJOR}::Qt5QmlImportScanner)
+
+target_link_libraries(atividade2
+  INTERFACE Qt${QT_VERSION_MAJOR}::Qt5Core)
 
 set_target_properties(atividade2 PROPERTIES
     MACOSX_BUNDLE_GUI_IDENTIFIER my.example.com

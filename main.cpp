@@ -1,9 +1,11 @@
+#include <QObject>
 #include <QGuiApplication>
 
 #include <QQmlApplicationEngine>
 #include <QQmlContext>
 
 #include "PlayerGenerator.h"
+#include "main.moc"
 
 int main(int argc, char *argv[])
 {
@@ -16,8 +18,14 @@ int main(int argc, char *argv[])
     QQmlApplicationEngine engine;
     const QUrl url(QStringLiteral("qrc:/main.qml"));
 
-    PlayerGenerator Player;
-    qmlRegisterType<PlayerGenerator>("generator.io", 1,0, "Player");
+    PlayerGenerator* playerGenerator = nullptr;
+
+    auto convObj = static_cast<QObject *>( playerGenerator );
+    QQmlEngine* qmlEngine = new QQmlEngine( convObj );
+    qmlEngine->importModule("Generator.io");
+    qmlEngine->setObjectName("rootPlayerItem");
+    qmlProtectModule("Generator.io", 1);
+    qmlRegisterType<PlayerGenerator>("Generator.io", 1,0, "RootPlayerItem");
 
     QObject::connect(&engine, &QQmlApplicationEngine::objectCreated,
                      &app, [url](QObject *obj, const QUrl &objUrl) {
@@ -26,7 +34,9 @@ int main(int argc, char *argv[])
     }, Qt::QueuedConnection);
 
     engine.load(url);
-    engine.rootContext()->setContextProperty("rootPlayerItem", &Player);
+    //qvariant_cast<QVariant>(qobject_cast<QVariant>(
+    engine.rootContext()->setContextProperty(
+                "rootPlayerItem", playerGenerator);
 
     return app.exec();
 }
